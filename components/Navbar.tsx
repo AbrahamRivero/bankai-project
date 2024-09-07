@@ -14,7 +14,6 @@ import Image from "next/image";
 const Navbar = async () => {
   const { getUser } = await getKindeServerSession();
   const user = await getUser();
-  console.log("🚀 ~ Navbar ~ user:", user);
 
   return (
     <nav className="sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
@@ -65,6 +64,26 @@ const Navbar = async () => {
                   })}
                 >
                   Eventos
+                </Link>
+
+                <Link
+                  href="/about-us"
+                  className={buttonVariants({
+                    variant: "ghost",
+                    size: "sm",
+                  })}
+                >
+                  Sobre Nosotros
+                </Link>
+
+                <Link
+                  href="/contact-us"
+                  className={buttonVariants({
+                    variant: "ghost",
+                    size: "sm",
+                  })}
+                >
+                  Contáctenos
                 </Link>
 
                 <UserAccountNav

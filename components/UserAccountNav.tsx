@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Icons } from "./Icons";
+import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -62,7 +63,10 @@ const UserAccountNav = async ({
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/shopping-cart">
+            <ShoppingCart className="text-blue-600 h-4 w-4 ml-1.5 mr-1.5" />
+            Carrito
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
