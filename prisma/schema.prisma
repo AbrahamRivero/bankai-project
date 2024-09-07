@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model comments {
+  id                BigInt     @id @default(autoincrement())
+  recipe_id         BigInt?
+  user_id           BigInt?
+  content           String
+  created_at        DateTime?  @default(now()) @db.Timestamptz(6)
+  parent_comment_id BigInt?
+  comments          comments?  @relation("commentsTocomments", fields: [parent_comment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_comments    comments[] @relation("commentsTocomments")
+  recipes           recipes?   @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users             users?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model favorite_recipes {
+  user_id    BigInt
+  recipe_id  BigInt
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  recipes    recipes   @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([user_id, recipe_id])
+}
+
+model ingredient_categories {
+  ingredient_id              BigInt
+  category_id                BigInt
+  ingredient_categories_list ingredient_categories_list @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ingredients                ingredients                @relation(fields: [ingredient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([ingredient_id, category_id])
+}
+
+model ingredient_categories_list {
+  id                    BigInt                  @id @default(autoincrement())
+  name                  String                  @unique
+  ingredient_categories ingredient_categories[]
+}
+
+model ingredients {
+  id                    BigInt                  @id @default(autoincrement())
+  name                  String                  @unique
+  ingredient_categories ingredient_categories[]
+  recipe_ingredients    recipe_ingredients[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model ratings {
+  id         BigInt    @id @default(autoincrement())
+  recipe_id  BigInt?
+  user_id    BigInt?
+  rating     Int
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  recipes    recipes?  @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model recipe_categories {
+  recipe_id              BigInt
+  category_id            BigInt
+  recipe_categories_list recipe_categories_list @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  recipes                recipes                @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([recipe_id, category_id])
+}
+
+model recipe_categories_list {
+  id                BigInt              @id @default(autoincrement())
+  name              String              @unique
+  recipe_categories recipe_categories[]
+}
+
+model recipe_ingredients {
+  recipe_id     BigInt
+  ingredient_id BigInt
+  quantity      String?
+  ingredients   ingredients @relation(fields: [ingredient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  recipes       recipes     @relation(fields: [recipe_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([recipe_id, ingredient_id])
+}
+
+model recipes {
+  id                 BigInt               @id @default(autoincrement())
+  user_id            BigInt?
+  title              String
+  description        String?
+  instructions       String
+  created_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  duration_minutes   Int?
+  comments           comments[]
+  favorite_recipes   favorite_recipes[]
+  ratings            ratings[]
+  recipe_categories  recipe_categories[]
+  recipe_ingredients recipe_ingredients[]
+  users              users?               @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  id               BigInt             @id @default(autoincrement())
+  username         String             @unique
+  email            String             @unique
+  password_hash    String
+  created_at       DateTime?          @default(now()) @db.Timestamptz(6)
+  comments         comments[]
+  favorite_recipes favorite_recipes[]
+  ratings          ratings[]
+  recipes          recipes[]
+}
