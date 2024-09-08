@@ -1,6 +1,7 @@
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa6";
+import { PhoneIcon, MailIcon, MapPinIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
 
 const Footer = () => {
@@ -10,9 +11,30 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pb-8">
           <div>
             <h3 className="font-semibold">Bankai Project</h3>
-            <p className="text-sm text-gray-400 mt-8">
-              Calle 12/ 3era y 4ta #315 Santa Marta, Matanzas
-            </p>
+
+            <div className="space-y-4 mt-8">
+              <div className="flex items-center">
+                <PhoneIcon className="w-4 h-4 text-gray-400 mr-2" />
+                <a href="tel:+5358113443" className="text-sm text-gray-400">
+                  +5358113443
+                </a>
+              </div>
+              <div className="flex items-center">
+                <MailIcon className="w-4 h-4 text-gray-400 mr-2" />
+                <a
+                  href="mailto:riveromartinezabraham@gmail.com"
+                  className="text-sm text-gray-400"
+                >
+                  riveromartinezabraham@gmail.com
+                </a>
+              </div>
+              <div className="flex items-center">
+                <MapPinIcon className="w-5 h-5 text-gray-400 mr-2" />
+                <span className="text-sm text-gray-400">
+                  Calle 12/ 3era y 4ta #315 Santa Marta, Matanzas
+                </span>
+              </div>
+            </div>
           </div>
           <div className="mt-4 sm:mt-0">
             <h3 className="text-sm text-gray-400 sm:font-medium">Links</h3>
@@ -31,7 +53,7 @@ const Footer = () => {
                 Sobre Nosotros
               </Link>
               <Link href="/contact-us" className="text-sm">
-                Cotáctenos
+                Contáctenos
               </Link>
             </div>
           </div>
@@ -47,6 +69,9 @@ const Footer = () => {
               </Link>
               <Link href="/" className="text-sm">
                 Domicilio
+              </Link>
+              <Link href="/" className="text-sm">
+                Horarios
               </Link>
             </div>
           </div>
