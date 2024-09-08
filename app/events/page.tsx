@@ -1,101 +1,162 @@
-import Image from "next/image";
+"use client";
+
+import { SetStateAction, useState } from "react";
+import { CalendarIcon, MapPinIcon, TagIcon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import BreadcrumbBanner from "@/components/BreadcrumbBanner";
+import { Skeleton } from "@/components/ui/skeleton";
+
+type Event = {
+  id: number;
+  name: string;
+  date: string;
+  location: string;
+  category: string;
+  imageUrl: string;
+};
+
+const events: Event[] = [
+  {
+    id: 1,
+    name: "Taller de Moda Sostenible",
+    date: "2023-08-15",
+    location: "Madrid",
+    category: "Moda",
+    imageUrl: "/c80b76ea-a46c-415a-aa84-b491f07683b7.webp",
+  },
+  {
+    id: 2,
+    name: "Exposición de Arte Digital",
+    date: "2023-09-01",
+    location: "Barcelona",
+    category: "Arte",
+    imageUrl: "/c80b76ea-a46c-415a-aa84-b491f07683b7.webp",
+  },
+  {
+    id: 3,
+    name: "Conferencia de Comercio Electrónico",
+    date: "2023-09-15",
+    location: "Valencia",
+    category: "Negocios",
+    imageUrl: "/c80b76ea-a46c-415a-aa84-b491f07683b7.webp",
+  },
+  {
+    id: 4,
+    name: "Festival Gastronómico",
+    date: "2023-10-01",
+    location: "Sevilla",
+    category: "Gastronomía",
+    imageUrl: "/c80b76ea-a46c-415a-aa84-b491f07683b7.webp",
+  },
+];
 
 export default function Events() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing Events{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [filter, setFilter] = useState<string>("Todos");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const filteredEvents =
+    filter === "Todos"
+      ? events
+      : events.filter((event) => event.category === filter);
+
+  return (
+    <div className="min-h-screen flex justify-center flex-wrap bg-slate-50">
+      <BreadcrumbBanner title="Eventos" />
+      <main className="container mx-auto px-4 sm:px-7 py-8">
+        <h1 className="text-3xl font-bold text-center mb-1 text-black">
+          Próximos Eventos
+        </h1>
+
+        <div className="mb-6">
+          <Select
+            onValueChange={(value: SetStateAction<string>) => setFilter(value)}
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <SelectTrigger className="w-full sm:w-[180px] bg-white shadow-md">
+              <SelectValue placeholder="Categoría" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Todos">Todos</SelectItem>
+              <SelectItem value="Moda">Moda</SelectItem>
+              <SelectItem value="Arte">Arte</SelectItem>
+              <SelectItem value="Negocios">Negocios</SelectItem>
+              <SelectItem value="Gastronomía">Gastronomía</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
+
+        <ul className="space-y-6">
+          {filteredEvents.map((event, index) => (
+            <li
+              key={event.id}
+              className={`relative bg-white shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg ${
+                index % 2 === 0
+                  ? "clip-path-polygon-[0_0,_100%_0,_95%_100%,_0_100%]"
+                  : "clip-path-polygon-[5%_0,_100%_0,_100%_100%,_0_100%]"
+              }`}
+            >
+              <div
+                className={`flex items-center p-4 ${
+                  index % 2 !== 0 ? "flex-row-reverse" : ""
+                }`}
+              >
+                {event.imageUrl ? (
+                  <img
+                    src={event.imageUrl}
+                    alt={event.name}
+                    className={`w-20 h-20 object-cover rounded-md ${
+                      index % 2 !== 0 ? "ml-4" : "mr-4"
+                    }`}
+                  />
+                ) : (
+                  <Skeleton className="w-20 h-20 rounded-md" />
+                )}
+                <div
+                  className={`flex-grow ${index % 2 !== 0 ? "text-right" : ""}`}
+                >
+                  <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                    {event.name}
+                  </h2>
+                  <div
+                    className={`flex flex-wrap gap-4 text-sm text-gray-600 ${
+                      index % 2 !== 0 ? "justify-end" : ""
+                    }`}
+                  >
+                    <div className="flex items-center">
+                      <CalendarIcon
+                        className={`h-4 w-4 text-primary ${
+                          index % 2 !== 0 ? "ml-2 order-2" : "mr-2"
+                        }`}
+                      />
+                      <span>{new Date(event.date).toLocaleDateString()}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <MapPinIcon
+                        className={`h-4 w-4 text-primary ${
+                          index % 2 !== 0 ? "ml-2 order-2" : "mr-2"
+                        }`}
+                      />
+                      <span>{event.location}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <TagIcon
+                        className={`h-4 w-4 text-primary ${
+                          index % 2 !== 0 ? "ml-2 order-2" : "mr-2"
+                        }`}
+                      />
+                      <span>{event.category}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }

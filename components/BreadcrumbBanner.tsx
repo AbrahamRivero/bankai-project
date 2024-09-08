@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-const BreadcrumbBanner = () => {
+const BreadcrumbBanner = ({ title }: { title: string }) => {
   const router = usePathname();
   const pathSegments = router.split("/").filter((segment) => segment);
 
@@ -33,7 +33,7 @@ const BreadcrumbBanner = () => {
           height={35}
         />
         <h1 className="text-4xl font-semibold text-center my-4 text-white">
-          Contáctenos
+          {title}
         </h1>
         <Breadcrumb>
           <BreadcrumbList>
@@ -51,12 +51,19 @@ const BreadcrumbBanner = () => {
               const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
 
               const formattedSegment = segment.replace(/-/g, " ");
+
+              const translatedSegment =
+                formattedSegment === "contact us"
+                  ? "Contáctenos"
+                  : formattedSegment === "events"
+                  ? "Eventos"
+                  : formattedSegment === "about us" && "Sobre Nosotros";
               return (
                 <div key={index}>
                   {isLast ? (
                     <BreadcrumbItem>
                       <BreadcrumbPage className="capitalize text-slate-400">
-                        {formattedSegment}
+                        {translatedSegment}
                       </BreadcrumbPage>
                     </BreadcrumbItem>
                   ) : (
@@ -66,7 +73,7 @@ const BreadcrumbBanner = () => {
                           href={href}
                           className="text-white hover:text-slate-400"
                         >
-                          {formattedSegment}
+                          {translatedSegment}
                         </BreadcrumbLink>
                       </BreadcrumbItem>
 
