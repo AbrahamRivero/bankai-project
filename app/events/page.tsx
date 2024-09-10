@@ -72,21 +72,40 @@ export default function Events() {
           Próximos Eventos
         </h1>
 
-        <div className="mb-6">
-          <Select
-            onValueChange={(value: SetStateAction<string>) => setFilter(value)}
-          >
-            <SelectTrigger className="w-full sm:w-[180px] bg-white shadow-md">
-              <SelectValue placeholder="Categoría" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Todos">Todos</SelectItem>
-              <SelectItem value="Moda">Moda</SelectItem>
-              <SelectItem value="Arte">Arte</SelectItem>
-              <SelectItem value="Negocios">Negocios</SelectItem>
-              <SelectItem value="Gastronomía">Gastronomía</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="flex flex-row gap-4 mb-6">
+          <div>
+            <Select
+              onValueChange={(value: SetStateAction<string>) =>
+                setFilter(value)
+              }
+            >
+              <SelectTrigger className="w-full sm:w-[180px] bg-white shadow-md">
+                <SelectValue placeholder="Fecha" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Todos">Futuros</SelectItem>
+                <SelectItem value="Moda">Pasados</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Select
+              onValueChange={(value: SetStateAction<string>) =>
+                setFilter(value)
+              }
+            >
+              <SelectTrigger className="w-full sm:w-[180px] bg-white shadow-md">
+                <SelectValue placeholder="Categoría" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Todos">Todos</SelectItem>
+                <SelectItem value="Moda">Moda</SelectItem>
+                <SelectItem value="Arte">Arte</SelectItem>
+                <SelectItem value="Negocios">Negocios</SelectItem>
+                <SelectItem value="Gastronomía">Gastronomía</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <ul className="space-y-6">
@@ -95,8 +114,8 @@ export default function Events() {
               key={event.id}
               className={`relative bg-white shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg ${
                 index % 2 === 0
-                  ? "clip-path-polygon-[0_0,_100%_0,_95%_100%,_0_100%]"
-                  : "clip-path-polygon-[5%_0,_100%_0,_100%_100%,_0_100%]"
+                  ? "clip-path-polygon-[0_0,_100%_0,_95%_100%,_0_100%] animate-slide-right"
+                  : "clip-path-polygon-[5%_0,_100%_0,_100%_100%,_0_100%] animate-slide-left"
               }`}
             >
               <div
