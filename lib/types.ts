@@ -6,3 +6,13 @@ export type Event = {
   category: string;
   imageUrl: string;
 };
+
+export type Banner = {
+  imgSrc: string;
+  imgWidth: number;
+  imgHeight: number;
+  imgClassName?: string;
+  bannerTitle: string;
+  bannerDescription: string;
+  bannerLink: string;
+};
