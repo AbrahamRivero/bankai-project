@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import BreadcrumbBanner from "@/components/BreadcrumbBanner";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type Event = {
@@ -21,7 +20,7 @@ type Event = {
   imageUrl: string;
 };
 
-const events: Event[] = [
+const events = [
   {
     id: 1,
     name: "Taller de Moda Sostenible",
@@ -66,7 +65,6 @@ export default function Events() {
 
   return (
     <div className="min-h-screen flex justify-center flex-wrap bg-slate-50">
-      <BreadcrumbBanner title="Eventos" />
       <main className="container mx-auto px-4 sm:px-7 py-8">
         <h1 className="text-3xl font-bold text-center mb-1 text-black">
           Próximos Eventos

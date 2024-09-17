@@ -1,101 +1,106 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { Filter } from "lucide-react";
+import { exampleProducts } from "@/lib/constants";
 
-export default function Shop() {
+import NavigationBreadcrumb from "@/components/common/NavigationBreadcrumb";
+import Pagination from "@/components/Pagination";
+import Product from "@/components/shop/Product";
+import FilterAccordion from "@/components/shop/FilterAccordion";
+import { db } from "@/db";
+
+export default async function Shop() {
+  /*   const [filter, setFilter] = useState("");
+  const [order, setOrder] = useState("Novedades");
+  const [fetchedProducts, setFetchedProducts] = useState<products[]>(); */
+
+  const products = await db.products.findMany({
+    include: { product_images: true },
+  });
+
+  console.log("🚀 ~ Shop ~ products:", products);
+
+  const orderProductsByCriteria = (criteria: string) => {
+    /* if (criteria === "Precio: Ascendente") {
+      const orderedProducts = fetchedProducts.sort((a, b) => {
+        if (a.price < b.price) return -1;
+      });
+
+      setFetchedProducts(orderedProducts);
+    }
+    if (criteria === "Precio: Descendente") {
+      const orderedProducts = fetchedProducts.sort((a, b) => {
+        if (a.price > b.price) return -1;
+      });
+
+      setFetchedProducts(orderedProducts);
+    }
+    if (criteria === "Novedades") {
+      const orderedProducts = fetchedProducts.sort((a, b) => {
+        if (a.price > b.price) return -1;
+      });
+
+      setFetchedProducts(orderedProducts);
+    } */
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing Shop{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-white px-5">
+      <NavigationBreadcrumb />
+      <div className="flex pt-5">
+        <aside className="flex-2 h-[394px] w-2/12 sticky top-0 hidden lg:block">
+          <FilterAccordion />
+        </aside>
+        <main className="w-full lg:w-10/12 lg:pl-4">
+          <div className="flex justify-between items-center mb-8 gap-2 pl-[10px]">
+            <div className="flex items-center space-x-4 sm:hidden">
+              <Button className="flex items-center space-x-2 px-4 py-2 border rounded">
+                <Filter className="w-4 h-4" />
+                <span className="hidden sm:inline-flex">Filtro</span>
+              </Button>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Select defaultValue="Recomendados">
+                <SelectTrigger className="w-full sm:w-fit bg-white shadow-md">
+                  <SelectValue placeholder="Ordenar por" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Recomendados">Descuentos</SelectItem>
+                  <SelectItem value="Novedades">Novedades</SelectItem>
+                  <SelectItem value="Precio: Ascendente">
+                    Precio: Ascendente
+                  </SelectItem>
+                  <SelectItem value="Precio: Descendente">
+                    Precio: Descendente
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <div className="grid lg:grid-cols-shop gap-4">
+            {exampleProducts.map((product) => (
+              <Product
+                key={product.id}
+                image={product.image}
+                name={product.name}
+                discount={product.discount_percentage}
+                novel={product.new}
+                price={product.price}
+                type={product.type}
+              />
+            ))}
+          </div>
+
+          <Pagination />
+        </main>
+      </div>
     </div>
   );
 }

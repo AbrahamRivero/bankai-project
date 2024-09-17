@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "tailwind.config.js", "components/ui/pagination.jsx", "components/Pagination.jsx", "components/shop/FilterAccordion.jsx", "components/shop/ProductTabs.jsx"  ],
   "exclude": [
     "node_modules"
   ]

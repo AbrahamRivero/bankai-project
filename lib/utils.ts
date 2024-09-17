@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 export function constructMetadata({
   title = "Bankai Project",
   description = "Bankai Project es una tienda virtual donde podrás encontrar todo tipo de artículos vinculados a la cultura friki.",
-  image = "/thumbnail.png",
+  image = "/favicon.svg",
   icons = "/navbarLogo.svg",
   noIndex = false,
 }: {
@@ -36,10 +36,10 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: "@joshtriedcoding",
+      creator: "@bloodstrem97",
     },
     icons,
-    metadataBase: new URL("https://quill-jet.vercel.app"),
+    metadataBase: new URL("https://bankai-project.vercel.app/"),
     ...(noIndex && {
       robots: {
         index: false,

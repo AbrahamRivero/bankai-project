@@ -1,13 +1,12 @@
-import Link from "next/link";
-import MaxWidthWrapper from "./MaxWidthWrapper";
 import { FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa6";
 import { PhoneIcon, MailIcon, MapPinIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
+import Link from "next/link";
 
 const Footer = () => {
   return (
     <footer className="z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all pt-8 pb-6">
-      <MaxWidthWrapper className="px-6">
+      <div className="mx-auto w-full px-2.5 sm:px-4">
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pb-8">
           <div>
             <h3 className="font-semibold">Bankai Project</h3>
@@ -116,7 +115,7 @@ const Footer = () => {
             los derechos reservados.
           </p>
         </div>
-      </MaxWidthWrapper>
+      </div>
     </footer>
   );
 };

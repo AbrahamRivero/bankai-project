@@ -11,7 +11,7 @@ const Products = () => {
       </h2>
       <div className="grid sm:grid-cols-4 grid-cols-1 gap-6">
         {[...Array(8)].map((_, index) => (
-          <Link href="/shop/productId">
+          <Link key={index} href="/shop/productId">
             <ProductCard key={index} />
           </Link>
         ))}

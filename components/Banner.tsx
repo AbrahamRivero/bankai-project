@@ -6,16 +6,16 @@ import Image from "next/image";
 
 const Banner = ({
   imgSrc,
-  imgWidth,
-  imgHeight,
+  imgWidth = 600,
+  imgHeight = 400,
   imgClassName,
   bannerTitle,
   bannerDescription,
   bannerLink,
 }: {
   imgSrc: string;
-  imgWidth: number;
-  imgHeight: number;
+  imgWidth?: number;
+  imgHeight?: number;
   imgClassName?: string;
   bannerTitle: string;
   bannerDescription: string;

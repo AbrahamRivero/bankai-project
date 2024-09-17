@@ -11,7 +11,7 @@ const Categories = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
         {["Dining", "Living", "Bedroom", "Kitchen", "Bathroom", "Porch"].map(
           (category) => (
-            <Link href="/shop">
+            <Link key={category} href="/shop">
               <div
                 key={category}
                 className="flex flex-col items-center text-center"

@@ -23,7 +23,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import BreadcrumbBanner from "@/components/BreadcrumbBanner";
 
 const phoneRegex = new RegExp(/^5\d{7}$/);
 
@@ -78,7 +77,6 @@ export default function ContactUs() {
 
   return (
     <div className="min-h-screen flex justify-center flex-wrap bg-slate-50">
-      <BreadcrumbBanner title="Contáctenos" />
       <main className="container mx-auto px-4 sm:px-7 py-8">
         <Card className="border-none shadow-none bg-slate-50">
           <CardHeader className="items-center">
