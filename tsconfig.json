@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "tailwind.config.js", "components/ui/pagination.jsx", "components/Pagination.jsx", "components/shop/FilterAccordion.jsx", "components/shop/ProductTabs.jsx"  ],
+, "tailwind.config.js", "components/ui/pagination.jsx", "components/Pagination.jsx", "components/shop/FilterAccordion.jsx", "components/shop/ProductTabs.jsx", "app/dashboard/(overview)/page.jsx", "components/ui/badge.jsx", "app/dashboard/products/create/page.jsx", "app/dashboard/orders/create/page.jsx", "app/dashboard/orders/[id]/edit/page.jsx", "app/dashboard/orders/page.jsx", "app/dashboard/products/[id]/edit/page.jsx", "app/dashboard/_components/Navbar.jsx", "app/dashboard/products/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

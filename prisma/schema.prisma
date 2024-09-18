@@ -18,20 +18,25 @@ model cart_items {
 }
 
 model categories {
-  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String
-  description String?
-  image_url   String?
-  products    products[]
+  id               String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String
+  description      String?
+  image_url        String?
+  parent_id        String?      @db.Uuid
+  categories       categories?  @relation("categoriesTocategories", fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_categories categories[] @relation("categoriesTocategories")
+  products         products[]
 }
 
 model events {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String
-  description String?
-  date        DateTime @db.Timestamptz(6)
-  location    String?
-  cover_value Decimal? @db.Decimal(10, 2)
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String
+  description      String?
+  date             DateTime          @db.Timestamptz(6)
+  location         String?
+  cover_value      Decimal?          @db.Decimal(10, 2)
+  category_id      String?           @db.Uuid
+  event_categories event_categories? @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model order_items {
@@ -48,9 +53,10 @@ model orders {
   id               String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user_id          String
   total_amount     Decimal       @db.Decimal(10, 2)
-  status           String
   created_at       DateTime?     @default(now()) @db.Timestamptz(6)
   shipping_address String?
+  status           String        @default("pending")
+  order_type       String        @default("sale")
   order_items      order_items[]
   users            users         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   payments         payments[]
@@ -85,6 +91,8 @@ model products {
   created_at          DateTime?         @default(now()) @db.Timestamptz(6)
   category_id         String?           @db.Uuid
   discount_percentage Decimal?          @db.Decimal(5, 2)
+  status              String            @default("draft")
+  sizes               String[]
   cart_items          cart_items[]
   order_items         order_items[]
   product_images      product_images[]
@@ -118,4 +126,11 @@ model product_images {
   product_id String   @db.Uuid
   image_url  String
   products   products @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model event_categories {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  description String?
+  events      events[]
 }

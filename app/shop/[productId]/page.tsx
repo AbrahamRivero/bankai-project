@@ -176,7 +176,7 @@ export default function ProductPage() {
                 type: "Stylish cafe chair",
                 price: 2500,
                 image: "/c80b76ea-a46c-415a-aa84-b491f07683b7.webp",
-                discount: "30%",
+                discount: 30,
               },
               {
                 name: "Leviosa",
@@ -189,7 +189,7 @@ export default function ProductPage() {
                 type: "Luxury big sofa",
                 price: 700,
                 image: "/c80b76ea-a46c-415a-aa84-b491f07683b7.webp",
-                discount: "50%",
+                discount: 50,
               },
               {
                 name: "Respira",

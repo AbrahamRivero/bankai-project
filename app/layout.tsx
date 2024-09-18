@@ -1,6 +1,5 @@
 import { cn, constructMetadata } from "@/lib/utils";
 import { Inter } from "next/font/google";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 
@@ -24,7 +23,6 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <Navbar />
           {children}
           <Footer />
         </Providers>

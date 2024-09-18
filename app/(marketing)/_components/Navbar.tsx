@@ -1,9 +1,9 @@
 import { SignInButton, SignedOut } from "@clerk/nextjs";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { buttonVariants } from "./ui/button";
+import { buttonVariants } from "../../../components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import UserAccountNav from "./UserAccountNav";
+import UserAccountNav from "../../../components/UserAccountNav";
 
 const Navbar = async () => {
   const { userId } = auth();

@@ -13,18 +13,11 @@ import NavigationBreadcrumb from "@/components/common/NavigationBreadcrumb";
 import Pagination from "@/components/Pagination";
 import Product from "@/components/shop/Product";
 import FilterAccordion from "@/components/shop/FilterAccordion";
-import { db } from "@/db";
 
 export default async function Shop() {
   /*   const [filter, setFilter] = useState("");
   const [order, setOrder] = useState("Novedades");
   const [fetchedProducts, setFetchedProducts] = useState<products[]>(); */
-
-  const products = await db.products.findMany({
-    include: { product_images: true },
-  });
-
-  console.log("🚀 ~ Shop ~ products:", products);
 
   const orderProductsByCriteria = (criteria: string) => {
     /* if (criteria === "Precio: Ascendente") {

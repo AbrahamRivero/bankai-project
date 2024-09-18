@@ -6,11 +6,11 @@ const isProtectedAdminRoute = createRouteMatcher(["/dashboard(.*)"]);
 
 export default clerkMiddleware((auth, request) => {
   // Restrict admin routes to users with specific permissions
-  if (isProtectedAdminRoute(request)) {
+/*   if (isProtectedAdminRoute(request)) {
     auth().protect((has) => {
       return has({ role: "admin" });
     });
-  }
+  } */
   // Restrict organization routes to signed in users
   if (isProtectedRoute(request)) auth().protect();
 });
