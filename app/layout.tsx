@@ -1,5 +1,6 @@
 import { cn, constructMetadata } from "@/lib/utils";
 import { Inter } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 
@@ -24,6 +25,7 @@ export default function RootLayout({
       >
         <Providers>
           {children}
+          <Toaster />
           <Footer />
         </Providers>
       </body>

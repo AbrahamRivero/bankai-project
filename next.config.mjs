@@ -22,6 +22,12 @@ const nextConfig = {
         port: "",
         pathname: "/avatar/**",
       },
+      {
+        protocol: "https",
+        hostname: "glkmnimobpqptrlbujld.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/sign/Bankai%20Project/**",
+      },
     ],
   },
 };

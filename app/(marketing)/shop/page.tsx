@@ -13,6 +13,7 @@ import NavigationBreadcrumb from "@/components/common/NavigationBreadcrumb";
 import Pagination from "@/components/Pagination";
 import Product from "@/components/shop/Product";
 import FilterAccordion from "@/components/shop/FilterAccordion";
+import { fetchProducts } from "@/lib/data";
 
 export default async function Shop() {
   /*   const [filter, setFilter] = useState("");
@@ -42,6 +43,8 @@ export default async function Shop() {
       setFetchedProducts(orderedProducts);
     } */
   };
+
+  const products = await fetchProducts();
 
   return (
     <div className="min-h-screen bg-white px-5">
@@ -78,15 +81,14 @@ export default async function Shop() {
           </div>
 
           <div className="grid lg:grid-cols-shop gap-4">
-            {exampleProducts.map((product) => (
+            {products.map((product) => (
               <Product
                 key={product.id}
-                image={product.image}
+                image={product.product_images[0].image_url}
                 name={product.name}
                 discount={product.discount_percentage}
-                novel={product.new}
                 price={product.price}
-                type={product.type}
+                type={product.categories?.name}
               />
             ))}
           </div>
