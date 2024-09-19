@@ -102,3 +102,12 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+export const generateSlug = (productName: string) => {
+  return productName
+    .toLowerCase() // Convertir a minúsculas
+    .trim() // Eliminar espacios en blanco al principio y al final
+    .replace(/[^a-z0-9\s-]/g, "") // Eliminar caracteres especiales
+    .replace(/\s+/g, "-") // Reemplazar espacios por guiones
+    .replace(/-+/g, "-"); // Eliminar guiones repetidos
+};

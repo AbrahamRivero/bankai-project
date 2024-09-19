@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import NavigationBreadcrumb from "@/components/common/NavigationBreadcrumb";
 
 export default async function Page() {
   return (
@@ -40,21 +41,12 @@ export default async function Page() {
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
             <div className="flex items-center gap-4">
-              <Button variant="outline" size="icon" className="h-7 w-7">
-                <ChevronLeft className="h-4 w-4" />
-                <span className="sr-only">Back</span>
-              </Button>
-              <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                Pro Controller
-              </h1>
-              <Badge variant="outline" className="ml-auto sm:ml-0">
-                In stock
-              </Badge>
+              <NavigationBreadcrumb />
               <div className="hidden items-center gap-2 md:ml-auto md:flex">
                 <Button variant="outline" size="sm">
-                  Discard
+                  Descartar
                 </Button>
-                <Button size="sm">Save Product</Button>
+                <Button size="sm">Guardar Producto</Button>
               </div>
             </div>
             <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
@@ -85,10 +77,30 @@ export default async function Page() {
                           className="min-h-32"
                         />
                       </div>
+                      <div className="grid grid-cols-2 gap-5">
+                        <div className="grid gap-3">
+                          <Label htmlFor="price">Precio</Label>
+                          <Input
+                            id="price"
+                            type="number"
+                            className="w-full"
+                            defaultValue={0}
+                          />
+                        </div>
+                        <div className="grid gap-3">
+                          <Label htmlFor="stock">Stock</Label>
+                          <Input
+                            id="stock"
+                            type="number"
+                            className="w-full"
+                            defaultValue={0}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
-                <Card x-chunk="dashboard-07-chunk-1">
+                {/*     <Card x-chunk="dashboard-07-chunk-1">
                   <CardHeader>
                     <CardTitle>Stock</CardTitle>
                     <CardDescription>
@@ -223,21 +235,21 @@ export default async function Page() {
                       Add Variant
                     </Button>
                   </CardFooter>
-                </Card>
-                <Card x-chunk="dashboard-07-chunk-2">
+                </Card> */}
+                <Card>
                   <CardHeader>
-                    <CardTitle>Product Category</CardTitle>
+                    <CardTitle>Categoría del Producto</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid gap-6 sm:grid-cols-3">
                       <div className="grid gap-3">
-                        <Label htmlFor="category">Category</Label>
+                        <Label htmlFor="category">Categoría</Label>
                         <Select>
                           <SelectTrigger
                             id="category"
-                            aria-label="Select category"
+                            aria-label="Selecciona categoría"
                           >
-                            <SelectValue placeholder="Select category" />
+                            <SelectValue placeholder="Selecciona categoría" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="clothing">Clothing</SelectItem>
@@ -252,14 +264,14 @@ export default async function Page() {
                       </div>
                       <div className="grid gap-3">
                         <Label htmlFor="subcategory">
-                          Subcategory (optional)
+                          Subcategoría (opcional)
                         </Label>
                         <Select>
                           <SelectTrigger
                             id="subcategory"
-                            aria-label="Select subcategory"
+                            aria-label="Selecciona subcategoría"
                           >
-                            <SelectValue placeholder="Select subcategory" />
+                            <SelectValue placeholder="Selecciona subcategoría" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="t-shirts">T-Shirts</SelectItem>
