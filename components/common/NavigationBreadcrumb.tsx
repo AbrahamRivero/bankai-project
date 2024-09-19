@@ -53,7 +53,7 @@ const NavigationBreadcrumb = () => {
                   <BreadcrumbItem>
                     <Link
                       href={href}
-                      className="text-shark hover:text-slate-400 text-base"
+                      className="text-shark hover:text-slate-400 text-base capitalize"
                     >
                       {translatedSegment}
                     </Link>

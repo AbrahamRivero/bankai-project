@@ -110,7 +110,11 @@ export const fetchFilteredProducts = async (
   try {
     const products = await db.products.findMany({
       where: {
-        OR: [{ status: { equals: query } }],
+        OR: [
+          { name: { contains: query, mode: "insensitive" } },
+          { status: { contains: query, mode: "insensitive" } },
+          { categories: { name: { contains: query, mode: "insensitive" } } },
+        ],
       },
       include: {
         product_images: true,
@@ -118,8 +122,8 @@ export const fetchFilteredProducts = async (
         categories: true,
       },
       orderBy: { created_at: { sort: "asc", nulls: "last" } },
-      skip: offset,
       take: ITEMS_PER_PAGE,
+      skip: offset,
     });
 
     return products;
@@ -136,12 +140,9 @@ export const fetchProductsPages = async (query: string) => {
     const count = await db.products.count({
       where: {
         OR: [
-          { name: { contains: query } },
-          { status: { equals: query } },
-          { categories: { name: { equals: query } } },
-          { created_at: { gte: oneWeekAgo } },
-          { created_at: { gte: oneMonthAgo } },
-          { created_at: { gte: oneYearAgo } },
+          { name: { contains: query, mode: "insensitive" } },
+          { status: { contains: query, mode: "insensitive" } },
+          { categories: { name: { contains: query, mode: "insensitive" } } },
         ],
       },
     });
