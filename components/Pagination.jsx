@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Pagination as PaginationWrapper,
   PaginationContent,
@@ -7,32 +9,53 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { cn, generatePagination } from "@/lib/utils";
+import { usePathname, useSearchParams } from "next/navigation";
 
-const Pagination = () => {
+const Pagination = ({ totalPages }) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+
+  const createPageURL = (pageNumber) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", pageNumber.toString());
+    return `${pathname}?${params.toString()}`;
+  };
+
+  const allPages = generatePagination(currentPage, totalPages);
   return (
     <div className="flex flex-col items-center mt-12 gap-2">
-      <span className="text-gray-600">Mostrando 1-16 de 32 resultados</span>
       <PaginationWrapper>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious
+              href={createPageURL(currentPage - 1)}
+              isDisabled={currentPage <= 1}
+            />
           </PaginationItem>
+          {allPages.map((page) => {
+            return (
+              <PaginationItem
+                key={page}
+                className={cn(
+                  currentPage === page
+                    ? "border-2 border-shark-600 rounded-lg"
+                    : ""
+                )}
+              >
+                <PaginationLink href={createPageURL(page)}>
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            );
+          })}
+
           <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext
+              href={createPageURL(currentPage + 1)}
+              isDisabled={currentPage >= totalPages}
+            />
           </PaginationItem>
         </PaginationContent>
       </PaginationWrapper>

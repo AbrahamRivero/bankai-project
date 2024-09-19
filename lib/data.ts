@@ -49,6 +49,14 @@ export const fetchOrders = async () => {
 };
 
 const ITEMS_PER_PAGE = 8;
+const oneWeekAgo = new Date();
+oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+const oneMonthAgo = new Date();
+oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+const oneYearAgo = new Date();
+oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
 export const fetchFilteredOrders = async (
   query: string,
@@ -56,14 +64,6 @@ export const fetchFilteredOrders = async (
 ) => {
   noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-  const oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-  const oneYearAgo = new Date();
-  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
   try {
     const orders = await db.orders.findMany({
@@ -90,32 +90,32 @@ export const fetchFilteredOrders = async (
   }
 };
 
+/* OR: [
+  { name: { contains: query } },
+  { status: { equals: query } },
+  { status: { equals: 'active' } },
+  { categories: { name: { equals: query } } },
+  { created_at: { gte: oneWeekAgo } },
+  { created_at: { gte: oneMonthAgo } },
+  { created_at: { gte: oneYearAgo } },
+], */
+
 export const fetchFilteredProducts = async (
   query: string,
   currentPage: number
 ) => {
   noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-  const oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-  const oneYearAgo = new Date();
-  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
   try {
     const products = await db.products.findMany({
       where: {
-        OR: [
-          { name: { contains: query } },
-          { status: { equals: query } },
-          { categories: { name: { equals: query } } },
-          { created_at: { gte: oneWeekAgo } },
-          { created_at: { gte: oneMonthAgo } },
-          { created_at: { gte: oneYearAgo } },
-        ],
+        OR: [{ status: { equals: query } }],
+      },
+      include: {
+        product_images: true,
+        product_reviews: true,
+        categories: true,
       },
       orderBy: { created_at: { sort: "asc", nulls: "last" } },
       skip: offset,
@@ -126,5 +126,30 @@ export const fetchFilteredProducts = async (
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch products.");
+  }
+};
+
+export const fetchProductsPages = async (query: string) => {
+  noStore();
+
+  try {
+    const count = await db.products.count({
+      where: {
+        OR: [
+          { name: { contains: query } },
+          { status: { equals: query } },
+          { categories: { name: { equals: query } } },
+          { created_at: { gte: oneWeekAgo } },
+          { created_at: { gte: oneMonthAgo } },
+          { created_at: { gte: oneYearAgo } },
+        ],
+      },
+    });
+
+    const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch total number of products.");
   }
 };
