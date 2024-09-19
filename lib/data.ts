@@ -8,7 +8,11 @@ export const fetchProducts = async () => {
 
   try {
     const data = await db.products.findMany({
-      include: { product_images: true, product_reviews: true },
+      include: {
+        product_images: true,
+        product_reviews: true,
+        categories: true,
+      },
     });
 
     const products = data.map((product) => ({

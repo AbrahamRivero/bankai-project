@@ -12,9 +12,9 @@ const Product = ({
 }: {
   image: string;
   name: string;
-  discount?: number;
-  type: string;
-  price: number;
+  discount?: any;
+  type?: string;
+  price: string;
   novel?: boolean;
 }) => {
   return (
@@ -28,9 +28,9 @@ const Product = ({
             height={300}
             className="w-full h-64 object-cover"
           />
-          {discount && (
+          {discount && discount > 0 && (
             <span className="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded hidden sm:inline-flex">
-              {`Ahorra ${discount}`}
+              {`Ahorra ${discount}%`}
             </span>
           )}
           {novel && (
