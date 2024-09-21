@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { unstable_noStore as noStore } from "next/cache";
 import { formatCurrency } from "./utils";
+import { categories } from "@prisma/client";
 
 export const fetchProducts = async () => {
   // Add noStore() here prevent the response from being cached.
@@ -45,6 +46,24 @@ export const fetchOrders = async () => {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch orders data.");
+  }
+};
+
+export const fetchCategories = async () => {
+  // Add noStore() here prevent the response from being cached.
+  noStore();
+
+  try {
+    const categories = await db.categories.findMany({
+      include: {
+        other_categories: true,
+      },
+    });
+
+    return categories;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch products data.");
   }
 };
 
